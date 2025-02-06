@@ -6,6 +6,7 @@ dist/
 .vscode/
 .idea/
 updateProducts.js
+server/uploads/*
 
 server/.env
 
