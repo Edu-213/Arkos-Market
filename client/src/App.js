@@ -8,6 +8,7 @@ import AdminPanel from './pages/AdminPanel';
 import Header from './components/Header/Header';
 import Cart from './pages/Cart';
 import SearchResults from './pages/SearchResults';
+import ProductPage from './pages/ProductPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/:departmentName/:categoryName/:subcategoryName" element={<SearchResults />} />
           <Route path="/:departmentName/:categoryName" element={<SearchResults />} />
           <Route path="/:departmentName" element={<SearchResults />} />
+          <Route path="/produto/:nome" component={ProductPage} />
         </Routes>
       </Router>
     </AuthProvider>

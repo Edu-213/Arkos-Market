@@ -53,7 +53,6 @@ router.post('/login', async (req, res) => {
         }
 
         const token = generateToken(user);
-        console.log(token)
         res.cookie('token', token, {
             httpOnly: false,
             secure: process.env.NODE_ENV === 'production',

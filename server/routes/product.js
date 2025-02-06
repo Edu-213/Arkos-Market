@@ -7,6 +7,7 @@ const SubCategory = require('../models/SubCategorySchema');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const slugify = require('slugify');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -48,7 +49,9 @@ router.post(
       const { name, brand, description, price, category, subcategory, maxInstallments, maxPurchesedLimit, pixDiscount, stock } = req.body;
       const image = req.file ? `/uploads/${req.file.filename}` : null;
 
-      const product = new Product({ name, brand, description, price, category, subcategory, maxInstallments, maxPurchesedLimit, pixDiscount, stock, image });
+      const slug = slugify(name, {lower: true, remove: /[*+.()'"!:@]/g});
+
+      const product = new Product({ name, slug, brand, description, price, category, subcategory, maxInstallments, maxPurchesedLimit, pixDiscount, stock, image });
 
       await product.save();
       res.status(201).json({ message: 'Produto criado com sucesso', product });
@@ -98,6 +101,16 @@ router.get('/id/:id', param('id').isMongoId(), validateRequest, async (req, res)
     res.status(500).json({ message: 'Erro ao obter o produto', error: error.message });
   }
 });
+
+router.get('/:slug', async (req, res) => {
+  try {
+    const product = await Product.findOne({ slug: req.params.slug }).populate('department category subcategory');
+    if (!product) return res.status(404).json({ message: 'Produto não encontrado' });
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao obter o produto', error: error.message });
+  }
+})
 
 // Buscar produtos por departamento, categoria e subcategoria
 router.get('/:departmentName/:categoryName?/:subcategoryName?', async (req, res) => {
