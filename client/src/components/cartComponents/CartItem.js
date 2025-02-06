@@ -40,7 +40,7 @@ const CartItem = React.memo(({ item, removeFromCart, updateQuantity, setErrorMes
               <div className="flex flex-col gap-[0.25rem] ml-[0.25rem] mr-auto">
                 <div className="flex flex-col items-start gap-[0.25rem]">
                   <span className="text-[0.75rem] leading-[1.125rem] text-gray-500">{item.product.brand}</span>
-                  <a href="/" className="text-xs font-bold leading-[1rem] text-gray-800 hover:underline line-clamp-2 overflow-hidden text-ellipsis">
+                  <a href={`/produto/${item.product.slug}`} className="text-xs font-bold leading-[1rem] text-gray-800 hover:underline line-clamp-2 overflow-hidden text-ellipsis">
                     {item.product.name}
                   </a>
                 </div>
@@ -122,7 +122,7 @@ const CartItem = React.memo(({ item, removeFromCart, updateQuantity, setErrorMes
             <div className="flex flex-col">
               <div className="flex flex-col justify-start">
                 <span className='text-[0.75rem] font-normal leading-[1.125rem] text-gray-500'>{item.product.brand}</span>
-                <a href="/" className="text-sm font-bold leading-[1.125rem] text-gray-800 hover:underline line-clamp-2 overflow-hidden text-ellipsis">
+                <a href={`/produto/${item.product.slug}`} className="text-sm font-bold leading-[1.125rem] text-gray-800 hover:underline line-clamp-2 overflow-hidden text-ellipsis">
                   {item.product.name}
                 </a>
               </div>

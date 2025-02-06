@@ -97,7 +97,7 @@ const ProductCard = ({product}) => {
     }
 
     const handlerClick = () => {
-        navigate(`/product/id/${product._id}`);
+        navigate(`/produto/${product.slug}`);
     };
 
     const handleTooltipPosition = () => {
