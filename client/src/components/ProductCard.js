@@ -119,7 +119,7 @@ const ProductCard = ({product}) => {
                     {product.comments?.length > 0 && (
                         <div className="absolute flex items-center text-yellow-300 text-sm md:group-hover:opacity-0 md:transition-opacity md:duration-200">
                             {[...Array(5)].map((_, index) => (
-                                <FontAwesomeIcon icon={faStar} />
+                                <FontAwesomeIcon key={index} icon={faStar} />
                             ))}
                             <span className="text-gray-500 p-1">({(product.comments.length)})</span>
                         </div>

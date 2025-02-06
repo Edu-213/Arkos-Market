@@ -7,7 +7,7 @@ dist/
 .idea/
 server/updateProducts.js
 server/uploads/*
-!serve/uploads/.gitkeep
+!server/uploads/.gitkeep
 
 server/.env
 
