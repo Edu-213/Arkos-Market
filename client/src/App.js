@@ -25,7 +25,7 @@ function App() {
           <Route path="/:departmentName/:categoryName/:subcategoryName" element={<SearchResults />} />
           <Route path="/:departmentName/:categoryName" element={<SearchResults />} />
           <Route path="/:departmentName" element={<SearchResults />} />
-          <Route path="/produto/:nome" component={ProductPage} />
+          <Route path="/produto/:slug" element={<ProductPage />} />
         </Routes>
       </Router>
     </AuthProvider>
