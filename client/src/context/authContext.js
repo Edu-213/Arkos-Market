@@ -1,5 +1,6 @@
 import React, {createContext, useState, useEffect} from 'react';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -12,6 +13,7 @@ export const AuthProvider = ({ children}) => {
         if (token) {
             setIsLoggedIn(true);
             fetchUserData(token);
+            syncCart(token);
         }else {
             setIsLoggedIn(false);
         }
@@ -35,6 +37,23 @@ export const AuthProvider = ({ children}) => {
             }
         } catch (error) {
             console.error('Erro ao fazer requisição:', error);
+        }
+    };
+
+    const syncCart = async token => {
+      let localCart = JSON.parse(localStorage.getItem('cart') || '[]');
+  
+        try {
+          await axios.post(
+            'http://localhost:5000/api/cart/sync',
+            { cart: localCart },
+            {
+              headers: { Authorization: `Bearer ${token}` }
+            }
+          );
+          localStorage.removeItem('cart');
+        } catch (error) {
+          console.error('Erro ao sincronizar o carrinho:', error);
         }
     };
 

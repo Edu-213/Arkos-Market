@@ -15,19 +15,13 @@ mongoose
 
 const updateProductsDepartment = async () => {
     try {
-        // Buscar todas as categorias com seus departamentos
-        const categories = await Category.find().populate('department');
-
-        for (const category of categories) {
-            if (category.department) {
-                // Atualizar todos os produtos dessa categoria
+   
+        const defaultLimit = 3;
                 const result = await Product.updateMany(
-                    { category: category._id }, // Produtos que pertencem a essa categoria
-                    { $set: { department: category.department._id } } // Define o departamento correto
+                    { maxPurchesedLimit: {$exists: false} }, 
+                    { $set: { maxPurchesedLimit: defaultLimit } } 
                 );
-                console.log(`Atualizados ${result.modifiedCount} produtos da categoria ${category.name}`);
-            }
-        }
+
 
         console.log('Todos os produtos foram corrigidos!');
     } catch (error) {

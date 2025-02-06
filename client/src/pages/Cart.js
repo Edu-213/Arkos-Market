@@ -13,9 +13,11 @@ const Cart = () => {
         const fetchCart = async() => {
             setLoading(true);
             try {
+                console.log(token)
                 if (token) {
                     const response = await axios.get('http://localhost:5000/api/cart', {headers: { 'Authorization': `Bearer ${token}` } }, {withCredentials: true});
                     setCart(response.data);
+                    console.log(response.data);
                 } else {
                     let localCart = JSON.parse(localStorage.getItem("cart") || "[]");
                     if (!Array.isArray(localCart)) localCart = [];

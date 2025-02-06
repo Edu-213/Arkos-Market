@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
@@ -11,7 +11,7 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [emailCpfError, setEmailCpfError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -20,8 +20,8 @@ const Login = () => {
 
         try {
             await axios.post('http://localhost:5000/api/auth/login', {emailCpf, password}, { withCredentials: true});
-            navigate('/');
-            setTimeout(() =>  window.location.reload(), 0);
+
+            window.location.href = 'http://localhost:3000';
         } catch (error) {
             console.log(error)
             setMessage(error.response?.data?.message || 'Erro no login');
