@@ -6,3 +6,39 @@
 body {
     @apply font-poppins;
 }
+
+@layer utilities {
+    .title-text {
+        width: 10.625rem;
+        color: #42464D;
+        font-size: 0.75rem;
+        line-height: 1rem;
+    }
+
+    .old-price-card {
+        color: #565C69;
+        font-size: 0.625rem;
+        line-height: 1.375rem;
+    }
+
+    .price-card {
+        color: #00A202;
+        font-size: 0.875rem;
+        font-weight: 700;
+        line-height: 1.875rem;
+    }
+
+    .discount {
+        color: white;
+        font-size: 0.75rem;
+        padding-left: .25rem;
+        padding-right: .25rem;
+        text-align: center;
+        background-color: red;
+    }
+
+    .product-payment-text {
+        color: #6D6D6D;
+        font-size: 0.625rem;
+    }
+}
