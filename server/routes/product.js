@@ -146,7 +146,7 @@ router.post(
   validateRequest,
   async (req, res) => {
     try {
-      const product = await Product.findById(req.params.id);
+      const product = await Product.findById(req.params.id).populate('department category subcategory');
       if (!product) return res.status(404).json({ message: 'Produto não encontrado' });
 
       product.comments.push(req.body);

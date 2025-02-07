@@ -20,9 +20,11 @@ const Catalog = () => {
     return(
         <div>
             <h2>Catálogo de Produtos</h2>
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)'}}>
+            <div className='flex flex-col'>
                 {products.map((product) => (
-                    <ProductCard key={product._id} product={product}/>
+                    <div>
+                        <ProductCard key={product._id} product={product}/>
+                    </div>
                 ))}
                 
             </div>
