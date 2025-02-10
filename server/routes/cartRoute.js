@@ -2,6 +2,8 @@ const express = require('express');
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
 const verifyToken = require('../middleware/verifyToken');
+const { body, param } = require('express-validator');
+const validateRequest = require('../middleware/validateRequest');
 
 const router = express.Router();
 
@@ -16,7 +18,7 @@ router.get('/', verifyToken, async (req, res) => {
 });
 
 // Adiciona item no carrinho
-router.post('/add', verifyToken, async (req, res) => {
+router.post('/add', [body('productId').isMongoId(), body('quantity').isInt({ min: 1 })], validateRequest, verifyToken, async (req, res) => {
   const { productId, quantity } = req.body;
 
   try {
@@ -40,7 +42,7 @@ router.post('/add', verifyToken, async (req, res) => {
 });
 
 //Atualiza quantidade de um item no carrinho
-router.put('/update', verifyToken, async (req, res) => {
+router.put('/update',  [body('productId').isMongoId(), body('quantity').isInt({ min: 1 })], validateRequest, verifyToken, async (req, res) => {
   const { productId, quantity } = req.body;
 
   try {
@@ -57,7 +59,7 @@ router.put('/update', verifyToken, async (req, res) => {
 });
 
 //Remove um item do carrinho
-router.delete('/remove', verifyToken, async (req, res) => {
+router.delete('/remove', body('productId').isMongoId(), validateRequest, verifyToken, async (req, res) => {
   const { productId } = req.body;
 
   try {
@@ -74,7 +76,7 @@ router.delete('/remove', verifyToken, async (req, res) => {
 });
 
 // Sincronizar carrinho ao logar
-router.post('/sync', verifyToken, async (req, res) => {
+router.post('/sync', [body('cart').isArray(), body('cart.*.productId').isMongoId(), body('cart.*.quantity').isInt({ min: 1 })], validateRequest, verifyToken, async (req, res) => {
   const { cart } = req.body;
 
   try {

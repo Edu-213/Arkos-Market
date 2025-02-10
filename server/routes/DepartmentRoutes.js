@@ -1,8 +1,10 @@
 const express = require('express');
 const Department = require('../models/DepartmentSchema');
+const { body, param } = require('express-validator');
+const validateRequest = require('../middleware/validateRequest');
 const router = express.Router();
 
-router.post('/', async (req,res) => {
+router.post('/', body('name').trim().notEmpty(), validateRequest, async (req,res) => {
     const { name } = req.body;
     try {
         const newDepartment = new Department({ name });
@@ -22,7 +24,7 @@ router.get('/', async (req, res ) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', [param('id').isMongoId(), body('name').optional().trim().notEmpty()], validateRequest, async (req, res) => {
     const {id} = req.params;
     const { name } = req.body;
 
@@ -38,7 +40,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', param('id').isMongoId(), validateRequest, async (req, res) => {
     const { id } = req.params;
 
     try {

@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const rateLimit = require('express-rate-limit');
+const { body, param } = require('express-validator');
+const validateRequest = require('../middleware/validateRequest');
 const verifyToken = require('../middleware/verifyToken');
 const User = require('../models/User');
 
@@ -18,9 +20,9 @@ const generateToken = (user) => {
     return jwt.sign({ id: user._id, name: user.name, email: user.email, role: user.role}, process.env.JWT_SECRET, { expiresIn: '7d'});
 };
 
-router.post('/cadastro', async (req, res) => {
+router.post('/cadastro', [body('name').notEmpty(), body('email').isEmail().normalizeEmail(), body('password').isLength({ min: 8 }), body('phone').isMobilePhone(), body('cpf').isLength({ min: 11, max: 11 }), body('birthDate').notEmpty(), body('gender').notEmpty()], validateRequest, async (req, res) => {
     let {name, email, password, phone, cpf, birthDate, gender} = req.body;
-
+    console.log(req.body);
     email = email.trim().toLowerCase();
     cpf = cpf.trim();
 
@@ -42,7 +44,7 @@ router.post('/cadastro', async (req, res) => {
 });
 
 // Login tradicional (E-mail ou CPF)
-router.post('/login', async (req, res) => {
+router.post('/login', [body('emailCpf').notEmpty(), body('password').notEmpty().isLength({ min: 6 })], validateRequest, async (req, res) => {
     const {emailCpf, password} = req.body;
 
     try {

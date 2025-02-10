@@ -1,5 +1,6 @@
 const express = require('express');
-const { body, param, query, validationResult } = require('express-validator');
+const { body, param, query } = require('express-validator');
+const validateRequest = require('../middleware/validateRequest');
 const Product = require('../models/Product');
 const Department = require('../models/DepartmentSchema');
 const Category = require('../models/Category');
@@ -18,14 +19,6 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage });
-
-const validateRequest = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  next();
-};
 
 // Criar produto
 router.post(

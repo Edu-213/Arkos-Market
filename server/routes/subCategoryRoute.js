@@ -1,8 +1,10 @@
 const express = require('express');
 const SubCategory = require('../models/SubCategorySchema');
+const { body, param } = require('express-validator');
+const validateRequest = require('../middleware/validateRequest');
 const router = express.Router();
 
-router.post('/', async (req,res) => {
+router.post('/', [body('name').trim().notEmpty(), body('category').isMongoId(), body('discount').isFloat({ min: 0 })], validateRequest, async (req,res) => {
     const { name, category, discount } = req.body;
     try {
         const newSubCategory = new SubCategory({ name, category, discount });
@@ -22,7 +24,7 @@ router.get('/', async (req, res ) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', [param('id').isMongoId(), body('name').optional().trim().notEmpty(), body('discount').optional().isFloat({ min: 0 })], validateRequest, async (req, res) => {
     const {id} = req.params;
     const { name, discount } = req.body;
 
@@ -38,7 +40,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', param('id').isMongoId(), validateRequest, async (req, res) => {
     const { id } = req.params;
 
     try {
