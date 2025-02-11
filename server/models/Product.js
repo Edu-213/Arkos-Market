@@ -7,10 +7,10 @@ const ProductSchema = new mongoose.Schema({
     description: {type: String, required: true},
     price: {type: Number, required: true},
     pixDiscount: {type: Number, default: 0},
-    department: {type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: true},
+    department: {type: mongoose.Schema.Types.ObjectId, ref: 'Department'},
     category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true},
     subcategory: { type: mongoose.Schema.Types.ObjectId, ref: 'SubCategory', required: true},
-    image: {type: String},
+    image: [{type: String}],
     stock: {type: Number, default: 0},
     maxInstallments: {type: Number},
     maxPurchesedLimit: {type: Number, default: 1},
@@ -25,7 +25,7 @@ const ProductSchema = new mongoose.Schema({
 
 ProductSchema.pre('save', async function(next) {
     if (this.category) {
-        const category = await mongoose.model('Category').findById(this.category).populate('department').lean();
+        const category = await mongoose.model('Category').findById(this.category).populate('department');
         if (category && category.department) {
             this.department = category.department._id;
         }

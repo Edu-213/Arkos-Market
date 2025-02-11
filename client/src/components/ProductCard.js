@@ -140,7 +140,7 @@ const ProductCard = ({product}) => {
                 <div className="flex md:flex-col">
                     {product.image && (
                         <div className="relative md:p-[0.313rem]">
-                            <img src={`http://localhost:5000${product.image}`} alt={product.name} className="min-w-[5.75rem] w-[5.75rem] h-[5.75rem] md:w-full md:h-40 object-contain rounded-lg mb-4" draggable="false" />
+                            <img src={`http://localhost:5000${product.image[0]}`} alt={product.name} className="min-w-[5.75rem] w-[5.75rem] h-[5.75rem] md:w-full md:h-40 object-contain rounded-lg mb-4" draggable="false" />
                             <p onClick={(e) => {e.stopPropagation(); handleAddToFavorites(e)}} className="absolute right-[0.3125rem] top-[0.3125rem] z-10 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
                                 {isFavorite ? (
                                     <svg width="24" height="22" viewBox="0 0 28 25" fill="none" xmlns="https://www.w3.org/2000/svg" class="IconHeartOrange"><path fill-rule="evenodd" clip-rule="evenodd" d="M28 7.4645C28 3.527 24.7625 0.333252 20.7375 0.333252C17.675 0.333252 15.05 2.2145 14 4.8395C12.95 2.2145 10.325 0.333252 7.2625 0.333252C3.2375 0.333252 0 3.527 0 7.4645C0 7.50825 0 7.85825 0 7.9895C0 15.3395 14.525 24.8333 14.525 24.8333C14.525 24.8333 28 15.3395 28 7.9895C28 7.85825 28 7.552 28 7.4645Z" fill="#FF0000"></path></svg>

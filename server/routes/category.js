@@ -29,6 +29,7 @@ router.put('/:id', [param('id').isMongoId(), body('name').optional().trim().notE
     const { name, discount, department } = req.body;
 
     try {
+        console.log(req.body)
         const updatedCategory = await Category.findByIdAndUpdate(
             id,
             { name, discount, department },
