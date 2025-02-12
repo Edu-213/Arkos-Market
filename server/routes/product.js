@@ -3,7 +3,7 @@ const { body, param, query } = require('express-validator');
 const validateRequest = require('../middleware/validateRequest');
 const router = express.Router();
 
-const ProductController = require('../controllers/product-controller');
+const ProductController = require('../controllers/productController');
 const { upload } = require('../middleware/multer');
 
 // Buscar produtos com pesquisa
@@ -12,7 +12,7 @@ router.get('/', [query('search').optional().trim()], ProductController.getProduc
 //Buscar produto por ID
 router.get('/id/:id', param('id').isMongoId(), validateRequest, ProductController.getProductsById);
 
-router.get('/:slug', ProductController.getProductsBySlug);
+router.get('/slug/:slug', ProductController.getProductsBySlug);
 
 // Buscar produtos por departamento, categoria e subcategoria
 router.get('/:departmentName/:categoryName?/:subcategoryName?', ProductController.getProductsByDepartmentAndCategoryAndSubcategory);
