@@ -6,10 +6,10 @@ const DepartmentController = require('../controllers/DepartmentController')
 
 router.get('/', DepartmentController.getDepartments);
 
-router.post('/', DepartmentController.createDepartment, body('name').trim().notEmpty(), validateRequest);
+router.post('/', body('name').trim().notEmpty(), validateRequest, DepartmentController.createDepartment);
 
-router.put('/:id', DepartmentController.updateDepartment, [param('id').isMongoId(), body('name').optional().trim().notEmpty()], validateRequest);
+router.put('/:id', [param('id').isMongoId(), body('name').optional().trim().notEmpty()], validateRequest, DepartmentController.updateDepartment);
 
-router.delete('/:id', DepartmentController.deleteDepartment, param('id').isMongoId(), validateRequest);
+router.delete('/:id', param('id').isMongoId(), validateRequest, DepartmentController.deleteDepartment);
 
 module.exports = router;

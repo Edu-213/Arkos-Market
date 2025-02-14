@@ -5,6 +5,7 @@
 
 body {
     @apply font-poppins;
+    background-color: rgb(242, 243, 244);
 }
 
 @layer utilities {
@@ -40,5 +41,19 @@ body {
     .product-payment-text {
         color: #6D6D6D;
         font-size: 0.625rem;
+    }
+
+    .cart-Item-text {
+        color: #42464D;
+        font-weight: 700;
+        line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .cts {
+        color: #565C69;
+        line-height: 16px;
+        
     }
 }

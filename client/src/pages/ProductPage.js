@@ -9,7 +9,7 @@ const ProductPage = () => {
     useEffect(() => {
         const fetchProduct = async() => {
             try {
-                const response = await fetch(`http://localhost:5000/api/products/${slug}`);
+                const response = await fetch(`http://localhost:5000/api/products/slug/${slug}`);
                 if (!response.ok) {
                     throw new Error('Produto não encontrado');
                 }

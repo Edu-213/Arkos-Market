@@ -37,9 +37,9 @@ exports.updateCartItem = async (req, res) => {
   const { productId, quantity } = req.body;
 
   try {
-    await Cart.findOneAndUpdate({ user: req.user.id, 'items.product': productId }, { $set: { 'items.$.quantity': quantity } }, { new: true }).populate('items.product');
+    const cart = await Cart.findOneAndUpdate({ user: req.user.id, 'items.product': productId }, { $set: { 'items.$.quantity': quantity } }, { new: true }).populate('items.product');
 
-    return res.status(200).json();
+    return res.status(200).json(cart);
   } catch (error) {
     return res.status(500).json({ message: 'Erro ao atualizar o carrinho.', error: error.message });
   }
@@ -49,13 +49,27 @@ exports.removeCartItem = async (req, res) => {
   const { productId } = req.body;
 
   try {
-    await Cart.findOneAndUpdate({ user: req.user.id }, { $pull: { items: { product: productId } } }, { new: true }).populate('items.product');
+    const cart = await Cart.findOneAndUpdate({ user: req.user.id }, { $pull: { items: { product: productId } } }, { new: true }).populate('items.product');
 
-    return res.status(200).json();
+    return res.status(200).json(cart);
   } catch (error) {
     return res.status(500).json({ message: 'Erro ao remover do carrinho.', error: error.message });
   }
 };
+
+exports.clearCart = async (req, res) => {
+  try {
+    const cart = await Cart.findOneAndUpdate(
+      { user: req.user.id },
+      { $set: { items: [] } },
+      { new: true }
+    ).populate('items.product');
+
+    return res.status(200).json(cart);
+  } catch(error) {
+    return res.status(500).json({ message: 'Erro ao limpar o carrinho.', error: error.message });
+  }
+}
 
 exports.syncCart = async (req, res) => {
   const { cart } = req.body;

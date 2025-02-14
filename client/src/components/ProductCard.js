@@ -27,7 +27,7 @@ const ProductCard = ({product}) => {
             if (isLoggedIn) {
                 try {
                     const token = Cookies.get('token');
-                    const response = await axios.get('http://localhost:5000/api/cart', {headers: { 'Authorization': `Bearer ${token} }`} });
+                    const response = await axios.get('http://localhost:5000/api/cart', {headers: { 'Authorization': `Bearer ${token}`} });
                     const cart = response.data;
                     const productInCart = cart?.items?.some(item => item.product.id === product.id);
                     setIsInCart(productInCart);
@@ -71,8 +71,6 @@ const ProductCard = ({product}) => {
                     if (response.status !== 200) {
                         throw new Error('Erro ao adicionar ao carrinho');
                     }
-            
-                    console.log('Carrinho atualizado:', response.data);
                 }
                 setIsInCart(!isInCart);
             } catch (error) {

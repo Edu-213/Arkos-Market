@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', CategoryController.getCategory);
 
-router.post('/', CategoryController.postCategory ,[body('name').trim().notEmpty(), body('discount').isFloat({ min: 0}), body('department').isMongoId() ], validateRequest);
+router.post('/',[body('name').trim().notEmpty(), body('discount').isFloat({ min: 0}), body('department').isMongoId() ], validateRequest, CategoryController.postCategory);
 
 router.put('/:id', [param('id').isMongoId(), body('name').optional().trim().notEmpty(), body('discount').optional().isFloat({ min: 0 }), body('department').optional().isMongoId()], validateRequest, CategoryController.updateCategory);
 
