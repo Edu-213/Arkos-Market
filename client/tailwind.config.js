@@ -9,6 +9,8 @@ module.exports = {
       },
       colors: {
         'muted': '#7F858D',
+        'gunmetal': '#565C69',
+        'mutedgray': '#42464D',
       }
     },
   },

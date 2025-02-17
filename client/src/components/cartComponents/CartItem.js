@@ -1,15 +1,10 @@
 import React from 'react';
 import useIsMobile from '../../hooks/useIsMobile';
-
-const formatCurrency = value => {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  }).format(value);
-};
+import useFormatCurrency from '../../hooks/useFormatCurrency';
 
 const CartItem = React.memo(({ item, removeFromCart, updateQuantity, setErrorMessage }) => {
   const isMobile = useIsMobile(768);
+  const formatCurrency = useFormatCurrency();
 
   const handleQuantityChange = e => {
     let newQuantity = Number(e.target.value);
@@ -34,7 +29,7 @@ const CartItem = React.memo(({ item, removeFromCart, updateQuantity, setErrorMes
             <div className="flex items-start">
               <a href="/" className="w-[5.5rem] h-[5.5rem] flex items-center justify-center">
                 {item.product.image && (
-                  <img src={`http://localhost:5000${item.product.image}`} alt={item.product.name} className="object-contain h-auto w-auto " draggable="false" />
+                  <img src={`http://localhost:5000${item.product.image[0]}`} alt={item.product.name} className="object-contain h-auto w-auto " draggable="false" />
                 )}
               </a>
               <div className="flex flex-col gap-[0.25rem] ml-[0.25rem] mr-auto">

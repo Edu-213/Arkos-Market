@@ -9,6 +9,7 @@ import Header from './components/Header/Header';
 import Cart from './pages/Cart';
 import SearchResults from './pages/SearchResults';
 import ProductPage from './pages/ProductPage';
+import './principal.css';
 
 function App() {
   return (

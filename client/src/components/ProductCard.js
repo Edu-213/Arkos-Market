@@ -4,7 +4,7 @@ import { useAuth } from "../context/authContext";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import useIsMobile from "../hooks/useIsMobile";
-import '../principal.css'
+import useFormatCurrency from "../hooks/useFormatCurrency";
 
 const ProductCard = ({product}) => {
     const [isInCart, setIsInCart] = useState(false);
@@ -14,13 +14,7 @@ const ProductCard = ({product}) => {
     const {isLoggedIn} = useAuth();
     const navigate = useNavigate();
     const isMobile = useIsMobile(768);
-
-    const formatCurrency = (value) => {
-        return new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-        }).format(value);
-    };
+    const formatCurrency = useFormatCurrency();
 
     useEffect(() => {
         const fetchCart = async() => {

@@ -12,6 +12,8 @@ function Header() {
     const {isLoggedIn, userName, logout} = useAuth();
     const location = useLocation();
     const isLoginPage = ['/login', '/cadastro'].includes(location.pathname);
+    const isCartPage = location.pathname === '/carrinho';
+    //const cartPage = ['/carrinho'].includes(location.pathname);
     const isMobile = useIsMobile(768);
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -42,9 +44,10 @@ function Header() {
     }, []);
 
     const handleScroll = useCallback(() => {
+        if (isCartPage) return;
         setIsScrolled(window.scrollY > 100);
         if (window.scrollY > 100 && isFocus) setIsFocus(false);
-    }, [isFocus]);
+    }, [isFocus, isCartPage]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -60,7 +63,7 @@ function Header() {
                     <div className="fixed inset-0 bg-black opacity-70 z-20 pointer-events-auto"></div>
                 )}
                 
-                {!isLoginPage && !isMenuOpen && (
+                {!isLoginPage && !isMenuOpen && !isCartPage && (
                     <button className={`text-white text-2xl md:mr-4`} onClick={() => setIsMenuOpen(!isMenuOpen)}><FontAwesomeIcon icon={faBars} /></button>
                 )}
 
@@ -68,11 +71,11 @@ function Header() {
                     <button className="bg-transparent" onClick={() => setIsMenuOpen(false)}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="https://www.w3.org/2000/svg" ><path fill-rule="evenodd" clip-rule="evenodd" d="M22 3.76101L20.239 2L12 10.2075L3.76101 2L2 3.76101L10.2075 12L2 20.239L3.76101 22L12 13.7925L20.239 22L22 20.239L13.7925 12L22 3.76101Z" fill="#ffffffff"></path></svg></button>
                 )}
 
-                {isLoginPage && isMobile && (
+                {(isLoginPage || isCartPage )&& isMobile && (
                     <button className='text-white'><a href='/' className='flex items-center gap-2'><svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="https://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.91673 14L9.18945 12.7273L3.46218 7L9.18945 1.27273L7.91673 0L0.916725 7L7.91673 14Z" className='fill-white'></path></svg>Voltar </a></button>
                 )}
                 
-                {isScrolled && isMobile && (
+                {isScrolled && isMobile && !isCartPage && (
                     <div className='w-full'>
                         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} isFocus={isFocus} setIsFocus={setIsFocus} isScrolled={isScrolled} />
                     </div>
@@ -82,7 +85,7 @@ function Header() {
                 <div className={`md:justify-start ${isScrolled ? 'hidden md:flex' : 'flex'}`}>
                     <a href="/"><img src="/imagens/Logo.png" alt='logo' className={`${isScrolled ? '' : 'h-12 md:h-20'}`}></img></a>
                 </div>
-                {isMobile && !isLoginPage && (
+                {isMobile && !isLoginPage && !isCartPage && (
                     <div className="flex items-center space-x-4">
                         <p className=" text-xl text-white cursor-pointer">
                             <a href="/carrinho"><FontAwesomeIcon icon={faCartShopping} /></a>
@@ -109,7 +112,7 @@ function Header() {
                 )}
             </div>
             
-            {isMobile && (
+            {isMobile && !isCartPage && (
                 <div className={`${isScrolled ? 'hidden' : 'flex'}`}>
                     <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} isFocus={isFocus} setIsFocus={setIsFocus} isScrolled={isScrolled} />
                 </div>
