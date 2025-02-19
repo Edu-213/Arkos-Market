@@ -7,15 +7,16 @@ import useIsMobile from '../../hooks/useIsMobile';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 import OpenMenu from './OpenMenu';
+import { useCart } from '../../context/CartContext';
 
 function Header() {
     const {isLoggedIn, userName, logout} = useAuth();
+    const { totalItems } = useCart();
     const location = useLocation();
     const isLoginPage = ['/login', '/cadastro'].includes(location.pathname);
     const isCartPage = location.pathname === '/carrinho';
-    //const cartPage = ['/carrinho'].includes(location.pathname);
     const isMobile = useIsMobile(768);
-
+    console.log(totalItems);
     const [searchTerm, setSearchTerm] = useState('');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -86,9 +87,13 @@ function Header() {
                     <a href="/"><img src="/imagens/Logo.png" alt='logo' className={`${isScrolled ? '' : 'h-12 md:h-20'}`}></img></a>
                 </div>
                 {isMobile && !isLoginPage && !isCartPage && (
-                    <div className="flex items-center space-x-4">
+                    <div className=" relative flex items-center space-x-4">
                         <p className=" text-xl text-white cursor-pointer">
-                            <a href="/carrinho"><FontAwesomeIcon icon={faCartShopping} /></a>
+                            <a href="/carrinho"><FontAwesomeIcon icon={faCartShopping} />
+                            {totalItems > 0 && (
+                                <span className='absolute top-[-2px] right-[-15px] bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center'>{totalItems}</span>
+                            )}
+                            </a>
                         </p>
                     </div>
                 )}
@@ -104,10 +109,13 @@ function Header() {
 
                 {/*Icones do lado direito */}
                 {!isMobile && !isLoginPage && (
-                    <div className='flex items-center space-x-2 text-xl'>
+                    <div className='relative flex items-center space-x-2 text-xl'>
                         <p className='text-xl cursor-pointer'><FontAwesomeIcon icon={faHeart}/></p>
-                        <a href="/carrinho"><FontAwesomeIcon icon={faCartShopping} /></a>
-                        <p className='text-xl cursor-pointer'><FontAwesomeIcon icon={faCartShopping} /></p>
+                        <a href="/carrinho"><FontAwesomeIcon icon={faCartShopping} />
+                        {totalItems > 0 && (
+                            <span className='absolute top-[-15px] right-[-12px] bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center'>{totalItems}</span>
+                        )}</a>
+                        
                     </div>
                 )}
             </div>

@@ -1,4 +1,4 @@
-import React, {createContext, useState, useEffect} from 'react';
+import {createContext, useContext, useState, useEffect} from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
@@ -70,4 +70,4 @@ export const AuthProvider = ({ children}) => {
     )
 }
 
-export const useAuth = () => React.useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext);

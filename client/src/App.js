@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/authContext';
+import { CartProvider } from './context/CartContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Catalog from './pages/Catalog';
@@ -14,21 +15,23 @@ import './principal.css';
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Catalog />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/cadastro" element={<Register />} />
-          <Route path="/admin" element={<AdminPanel />} />
-          <Route path="/carrinho" element={<Cart />} />
-          <Route path="/search" element={<SearchResults />} />
-          <Route path="/:departmentName/:categoryName/:subcategoryName" element={<SearchResults />} />
-          <Route path="/:departmentName/:categoryName" element={<SearchResults />} />
-          <Route path="/:departmentName" element={<SearchResults />} />
-          <Route path="/produto/:slug" element={<ProductPage />} />
-        </Routes>
-      </Router>
+      <CartProvider>
+        <Router>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Catalog />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/cadastro" element={<Register />} />
+            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/carrinho" element={<Cart />} />
+            <Route path="/search" element={<SearchResults />} />
+            <Route path="/:departmentName/:categoryName/:subcategoryName" element={<SearchResults />} />
+            <Route path="/:departmentName/:categoryName" element={<SearchResults />} />
+            <Route path="/:departmentName" element={<SearchResults />} />
+            <Route path="/produto/:slug" element={<ProductPage />} />
+          </Routes>
+        </Router>
+      </CartProvider>
     </AuthProvider>
   );
 }

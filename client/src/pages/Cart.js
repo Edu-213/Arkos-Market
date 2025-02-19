@@ -1,103 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import CartItem from '../components/cartComponents/CartItem';
 import ResumeCart from '../components/cartComponents/ResumeCart';
-import Cookies from 'js-cookie';
 import useIsMobile from '../hooks/useIsMobile';
+import { useCart } from '../context/CartContext';
 
 const Cart = () => {
-  const [cart, setCart] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const {cart, loading, updateQuantity, removeItem, clearCart} = useCart();
   const [errorMessage, setErrorMessage] = useState('');
-  const token = Cookies.get('token');
   const [inputValue, setInputValue] = useState('');
   const isMobile = useIsMobile(768);
-
-  useEffect(() => {
-    const fetchCart = async () => {
-      setLoading(true);
-      try {
-        if (token) {
-          const response = await axios.get('http://localhost:5000/api/cart', { headers: { Authorization: `Bearer ${token}` } }, { withCredentials: true });
-          setCart(response.data);
-        } else {
-          let localCart = JSON.parse(localStorage.getItem('cart') || '[]');
-          if (!Array.isArray(localCart)) localCart = [];
-
-          const detailedCart = await Promise.all(
-            localCart.map(async item => {
-              try {
-                const productResponse = await axios.get(`http://localhost:5000/api/products/id/${item.productId}`);
-                return { product: productResponse.data, quantity: item.quantity };
-              } catch (error) {
-                console.error('Erro ao buscar produto:', error);
-                return null;
-              }
-            })
-          );
-          setCart({ items: detailedCart.filter(item => item !== null) });
-        }
-      } catch (err) {
-        console.error('Erro ao buscar carrinho:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCart();
-  }, [token]);
-
-  const updateQuantity = async (productId, newQuantity) => {
-    if (newQuantity < 1) return;
-
-    if (token) {
-      try {
-        await axios.put(
-          'http://localhost:5000/api/cart/update',
-          { productId, quantity: newQuantity },
-          { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
-        );
-        setCart(prevCart => ({ ...prevCart, items: prevCart.items.map(item => (item.product._id === productId ? { ...item, quantity: newQuantity } : item)) }));
-      } catch (err) {
-        console.error('Erro ao atualizar quantidade:', err);
-      }
-    } else {
-      let localCart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const itemIndex = localCart.findIndex(item => item.productId === productId);
-
-      if (itemIndex >= 0) {
-        localCart[itemIndex].quantity = newQuantity;
-        localStorage.setItem('cart', JSON.stringify(localCart));
-
-        setCart(prevCart => ({ ...prevCart, items: prevCart.items.map(item => (item.product._id === productId ? { ...item, quantity: newQuantity } : item)) }));
-      }
-    }
-  };
-
-  const removeItem = async productId => {
-    if (token) {
-      try {
-        await axios.delete('http://localhost:5000/api/cart/remove', { headers: { Authorization: `Bearer ${token}` }, data: { productId }, withCredentials: true });
-        setCart(prevCart => ({ ...prevCart, items: prevCart.items.filter(item => item.product._id !== productId) }));
-      } catch (err) {
-        console.error('Erro ao remover item:', err);
-      }
-    } else {
-      let localCart = JSON.parse(localStorage.getItem('cart') || '[]');
-      localCart = localCart.filter(item => item.productId !== productId);
-      localStorage.setItem('cart', JSON.stringify(localCart));
-      setCart(prevCart => ({ ...prevCart, items: prevCart.items.filter(item => item.product._id !== productId) }));
-    }
-  };
-
-  const clearCart = async () => {
-    if (token) {
-      await axios.delete('http://localhost:5000/api/cart/clear', { headers: { Authorization: `Bearer ${token}` }, withCredentials: true });
-      setCart({ items: [] });
-    } else {
-      localStorage.removeItem('cart');
-      setCart({ items: [] });
-    }
-  };
 
   useEffect(() => {
     if (errorMessage) {
@@ -242,7 +153,6 @@ const Cart = () => {
             <a href="/" className="text-blue-500 underline">
               Voltar ao catálogo
             </a>
-            .
           </p>
         )}
       </div>

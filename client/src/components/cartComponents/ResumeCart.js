@@ -78,7 +78,7 @@ const ResumeCart = ({ cart }) => {
         {isMobile && <button className="w-full bg-[#009E2A] text-white font-bold py-[10px] px-[1rem] mt-[13px] rounded-[4px] uppercase">IR PARA O PAGAMENTO</button>}
       </div>
       {!isMobile && (
-        <div className="mt-[43px] bg-white px-5 py-[10px] flex flex-col gap-[0.3rem]">
+        <div className="mt-[43px] bg-white px-5 py-[10px] flex flex-col gap-[0.3rem] min-w-[300px]">
           <button className="w-full bg-[#009E2A] text-white font-bold py-[10px] px-[1rem] rounded-[4px] uppercase">IR PARA O PAGAMENTO</button>
           <button className="w-full text-[#009E2A] font-bold py-[10px] px-[1rem] rounded-[4px] uppercase">
             <a href="/">continuar comprando</a>
