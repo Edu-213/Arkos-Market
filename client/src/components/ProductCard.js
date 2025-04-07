@@ -127,7 +127,6 @@ const ProductCard = ({product}) => {
                             
                         </div>
                     )}
-                    
                 </div>
                 <div className="flex md:flex-col">
                     {product.image && (
@@ -142,7 +141,6 @@ const ProductCard = ({product}) => {
                                 )}
                             </p>
                         </div>
-                        
                     )}
                     <div className="relative flex flex-col py-[0.313rem] px-[0.313rem] md:px-[0.5rem] md:py-0">
                         <button className="relative group text-left" onMouseEnter={handleTooltipPosition}>
