@@ -1,4 +1,4 @@
-# Loja Online
+# Arkos Market
 
 >**Atenção** Este projeto está **em fase inicial** e **ainda está sendo desenvolvido**. A página principal ainda não está finalizada, e algumas funcionalidades podem não estar implementadas ou funcionando corretamente.
 
